@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/media/data/huyennm/mimic-iv/mimic-derived/derive-demographic-data.py", line 63, in <module>
+    mimic_derived_by_keyword(keyword, file_event_path, chartevents_path, save_path)
+  File "/media/data/huyennm/mimic-iv/mimic-derived/derive-demographic-data.py", line 47, in mimic_derived_by_keyword
+    filtered_chartevent_df = filter_in_chart(item_ids, chartevents_path)
+  File "/media/data/huyennm/mimic-iv/mimic-derived/derive-demographic-data.py", line 24, in filter_in_chart
+    for chunk in chartevents_df:
+  File "/media/data/huyennm/miniconda3/envs/sleepyenv/lib/python3.10/site-packages/pandas/io/parsers/readers.py", line 1668, in __next__
+    return self.get_chunk()
+  File "/media/data/huyennm/miniconda3/envs/sleepyenv/lib/python3.10/site-packages/pandas/io/parsers/readers.py", line 1777, in get_chunk
+    return self.read(nrows=size)
+  File "/media/data/huyennm/miniconda3/envs/sleepyenv/lib/python3.10/site-packages/pandas/io/parsers/readers.py", line 1748, in read
+    ) = self._engine.read(  # type: ignore[attr-defined]
+  File "/media/data/huyennm/miniconda3/envs/sleepyenv/lib/python3.10/site-packages/pandas/io/parsers/c_parser_wrapper.py", line 234, in read
+    chunks = self._reader.read_low_memory(nrows)
+  File "parsers.pyx", line 855, in pandas._libs.parsers.TextReader.read_low_memory
+  File "parsers.pyx", line 904, in pandas._libs.parsers.TextReader._read_rows
+  File "parsers.pyx", line 879, in pandas._libs.parsers.TextReader._tokenize_rows
+  File "parsers.pyx", line 890, in pandas._libs.parsers.TextReader._check_tokenize_status
+  File "parsers.pyx", line 2058, in pandas._libs.parsers.raise_parser_error
+pandas.errors.ParserError: Error tokenizing data. C error: Calling read(nbytes) on source failed. Try engine='python'.
+Data for height saved to /media/data/huyennm/mimic-iv/mimic-derived/height.csv
+Data for weight saved to /media/data/huyennm/mimic-iv/mimic-derived/weight.csv
+Data for gcs saved to /media/data/huyennm/mimic-iv/mimic-derived/gcs.csv

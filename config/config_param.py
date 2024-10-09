@@ -1,0 +1,5 @@
+mimic_path = '/media/data3/biodataset/MIMIC_IV/MIMIC-IV-v3.0/physionet.org/files/mimiciv/3.0'
+derive_path = '/media/data/huyennm/mimic-iv/mimic-derived/derived_database'
+target_patients_path = '/media/data/huyennm/mimic-iv/notebook/eligible_patients.csv'
+derive_queries_path = '/media/data/huyennm/mimic-iv/mimic-derived/queries'
+comorbidity_code_path = '/media/data/huyennm/mimic-iv/notebook/comorbidity/comorbidity_code'
