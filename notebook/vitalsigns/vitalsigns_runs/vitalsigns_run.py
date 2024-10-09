@@ -1,7 +1,7 @@
 import os
 import sys
 import pandas as pd
-import pandasql as psql
+# import pandasql as psql
 from pathlib import Path
 import time
 import sqlite3

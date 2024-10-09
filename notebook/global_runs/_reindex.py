@@ -2,7 +2,7 @@ import pandas as pd
 import os
 from config.config_param import target_patients_path
 
-file_path = '/media/data/huyennm/mimic-iv/notebook/comorbidity/comorbidity_results/patients_with_comorbidity.csv'
+file_path = '{config.abc}/comorbidity/comorbidity_results/patients_with_comorbidity.csv'
 sorted_path = '/media/data/huyennm/mimic-iv/notebook/comorbidity/comorbidity_runs/sorted.csv'
 
 target_patients = pd.read_csv(target_patients_path)
@@ -19,7 +19,7 @@ def sort_patient_data(file_path):
         raise ValueError("Missing indices in the original data:", missing_indices.tolist())
 
     # Reindex the DataFrame based on the target_patients' stay_id
-    df = df.reindex(target_patients['stay_id']).reset_index()
+    return df.reindex(target_patients['stay_id']).reset_index()
 
 def reindex(file_path, sorted_path):
     sorted_data = sort_patient_data(file_path)  

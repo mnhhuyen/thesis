@@ -2,7 +2,7 @@ import os
 import subprocess
 import re
 import argparse
-from concurrent.futures import ThreadPoolExecutor
+from concurrent.futures import ProcessPoolExecutor
 from termcolor import colored
 
 # Function to find all Python files in directories ending with *_runs
@@ -21,24 +21,20 @@ def extract_leading_number(filename):
     match = re.match(r'(\d+)_', os.path.basename(filename))
     if match:
         return int(match.group(1))
-    return float('inf')  # Return a high value if no number
+    return None  # Return None if no leading number exists
 
 # Function to run a Python file
 def run_python_file(file, silent):
-    # Print the file being executed in color
     print(colored(f"Running: {file}", "green"))
 
     if not silent:
-        # Capture output and log it
         result = subprocess.run(['python3', file], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        # Log stdout and stderr if needed
         if result.stdout:
             print(colored(f"Output of {file}:\n", "yellow") + result.stdout)
         if result.stderr:
             print(colored(f"Error in {file}:\n", "red") + result.stderr)
     else:
-        # Suppress the output
-        subprocess.run(['python3', file], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        result = subprocess.run(['python3', file], stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, text=True)
         if result.stderr:
             print(colored(f"Error in {file}:\n", "red") + result.stderr)
 
@@ -52,12 +48,32 @@ def main():
     root_dir = '.'  # Starting directory
     py_files = find_python_files(root_dir)
 
-    # Sort files based on the leading number (if exists)
-    py_files_sorted = sorted(py_files, key=extract_leading_number)
+    # Separate order-sensitive and non-order-sensitive files
+    order_sensitive = []
+    non_order_sensitive = []
 
-    # Run Python files in parallel, with the smaller number files running first
-    with ThreadPoolExecutor() as executor:
-        executor.map(lambda file: run_python_file(file, args.silent), py_files_sorted)
+    for file in py_files:
+        if extract_leading_number(file) is not None:
+            order_sensitive.append(file)
+        else:
+            non_order_sensitive.append(file)
+
+    # Sort order-sensitive files based on leading number
+    order_sensitive_sorted = sorted(order_sensitive, key=extract_leading_number)
+    
+    print("Running non-order-sensitive files in parallel...")
+    with ProcessPoolExecutor() as executor:
+        futures = [executor.submit(run_python_file, file, args.silent) for file in non_order_sensitive]
+        for future in futures:
+            future.result()  # Wait for each parallel task to complete
+
+    # Run order-sensitive files sequentially
+    print("Running order-sensitive files sequentially...")
+    for file in order_sensitive_sorted:
+        run_python_file(file, args.silent)
+
+    # Run non-order-sensitive files in parallel
+
 
 if __name__ == "__main__":
     main()
