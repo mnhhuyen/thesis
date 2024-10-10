@@ -2,8 +2,8 @@ import pandas as pd
 import os
 from config.config_param import target_patients_path
 
-file_path = '/media/data/huyennm/mimic-iv/notebook/demographics/demographics_results/race_output.csv'
-sorted_path = '/media/data/huyennm/mimic-iv/notebook/demographics/demographics_runs/sorted.csv'
+file_path = '/media/data/huyennm/mimic-iv/mimiciv_data/demographics/demographics_results/race_output.csv'
+sorted_path = '/media/data/huyennm/mimic-iv/mimiciv_data/demographics/demographics_runs/sorted.csv'
 
 target_patients = pd.read_csv(target_patients_path)
 

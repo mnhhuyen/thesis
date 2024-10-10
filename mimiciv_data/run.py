@@ -4,6 +4,7 @@ import re
 import argparse
 from concurrent.futures import ProcessPoolExecutor
 from termcolor import colored
+import time
 
 # Function to find all Python files in directories ending with *_runs
 def find_python_files(root_dir):
@@ -76,4 +77,8 @@ def main():
 
 
 if __name__ == "__main__":
+    start_time = time.time()
     main()
+    end_time = time.time()
+    exec_time = end_time - start_time
+    print(f"Execution time: {exec_time}")
